@@ -1,0 +1,3 @@
+1、导入jar包及数据库驱动包
+	spring-jdbc-4.1.6.RELEASE.jar
+	spring-tx-4.1.6.RELEASE.jar
