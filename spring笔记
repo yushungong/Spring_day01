@@ -1,0 +1,46 @@
+spring是开源的轻量级框架 
+
+spring是javaee的一站式框架
+	（1）spring在Javaee三层结构中，每一层都提供不同的解决技术
+		-web层：springMVC
+		-service层：spring的ioc
+		-dao层：spring的jdbcTemplate
+
+spring核心主要是两部分
+	（1）aop：面向切面编程
+	（2）ioc：控住反转，把对象的创建交给spring控制
+		di:依赖注入，创建对象的过程中项属性设置值
+
+spring的IOC操作
+	把对象的创建交给spring进行管理
+	
+	IOC底层原理
+		（1）xml配置文件
+		（2）dom4j解析xml
+		（3）工厂设计模式
+		（4）类的反射
+
+spring的bean实例化有三种方式
+第一种 使用类的无参构造器（重点）
+第二种 使用静态工厂创建
+第三种 使用实例工厂创建
+	spring核心配置文件名称和位置不是固定的，建议放到src下，建议命名为applicationContex.xml
+	配置文件中的约束在jar包文件夹的spring-framework-4.1.6.RELEASE\docs\spring-framework-reference\html目录下的最后一个html文件中，
+	也就是xsd-config.html文件
+	
+	配置文件中bean标签的常用属性
+		id：不能包含特殊符号，根据id值得到配置对象
+		class： 创建的类的全路径
+		name：与id功能基本相同，但是可以包含特殊符号，为了整合struts1，基本不使用
+		scope：Bean的作用范围
+			--singleton：默认值，单例的
+			--prototype：多例的
+			--request：web项目中创建一个bean的对象，将其存入到request域中
+			--session：web项目中创建一个bean的对象，将其存入到session域中
+			--globalSession：web项目中创建一个bean的对象，将其存入到application域中
+			
+属性注入：创建对象时，向类的属性中设置值
+	（1）set方法注入（重点）
+		注入对象类型属性（重点）
+	（2）有参构造注入
+			

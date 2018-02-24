@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop" xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+	<!-- 配置增强方法类与被增强类 -->
+	<bean id="book" class="com.net.gong.aop.Book"></bean>
+	<bean id="myBook" class="com.net.gong.aop.MyBook"></bean>
+	
+	<!-- 配置aop操作 -->
+	<aop:config>
+		<!-- 配置切入点 -->
+		<!-- expression:要配置的表达式，详情查看工程根目录文件：《AOP面向切面编程》 -->
+		<aop:pointcut expression="execution(* com.net.gong.aop.Book.book(..))" id="pointcut1"/>
+		
+		<!-- 配置切面 ，用以把增强应用到方法上
+			ref:增强方法类的id
+		-->
+		<aop:aspect ref="myBook">
+			<!-- 配置增强类型
+				<aop:before>:该标签表示在方法之前添加增强
+				method:使用增强类的哪个方法进行增强
+				pointcut-ref：指定被增强的切入点的id
+			 -->
+			 <aop:before method="before1" pointcut-ref="pointcut1"/>
+			 
+			 <aop:around method="around1" pointcut-ref="pointcut1"/>
+		</aop:aspect>
+		
+	</aop:config>
+	
+</beans>

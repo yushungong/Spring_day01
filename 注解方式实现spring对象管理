@@ -1,0 +1,25 @@
+spring的bean管理（注解）
+	注解写法：@注解名称(注解名称=注解值)
+	
+	注解创建对象
+		1、导入jar包（spring-aop-4.1.6.RELEASE.jar）
+		2、创建spring配置文件，文件头引入约束(the context schema)
+		3、在配置文件中打开注解扫描
+		4、在创建对象的类上面使用注解实现
+			spring中提供四个创建对象注解
+			（1）@Component
+			（2）@Controller
+			（3）@Service
+			（4）@Repository
+			目前这四个注解功能一样，都创建对象
+		5、配置注解对象为多实例（默认为单实例）
+			@Scope(value="prototype")
+		
+	注解注入属性
+		1、@Autowired
+			
+		2、@Resource(name="dao")
+		name属性中设置要注入的对象的value值
+	配置文件和注解混合使用
+	1、创建对象操作使用配置文件
+	2、注入属性的操作使用注解方式实现

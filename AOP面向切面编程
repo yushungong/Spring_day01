@@ -1,0 +1,58 @@
+AOP 
+(1)aop概述
+	面向切面编程，扩展功能不修改代码实现
+	横向抽取机制，取代传统纵向继承体系（性能监视、事务管理、安全检测、缓存）
+(2)aop底层原理
+	动态代理
+		针对有接口情况，使用jdk动态代理
+			使用动态代理方式，创建接口实现类代理对象
+		针对没有接口情况，使用cglib动态代理
+			创建类的子类的代理对象
+			在子类里面调用父类的方法完成增强
+(3)aop操作相关术语
+	Joinpoint(连接点)：类里面可以被增强的方法，被称为连接点
+	Pointcut(切入点)：在类里面有许多方法可以被增强，但实际可能只增强了几个方法，那些实际被增强的方法称为切入点
+	Advice(通知/增强)：增强的逻辑，称为增强或通知，比如扩展日志功能
+		前置通知：在方法之前
+		后置通知：在方法之后执行
+		异常通知：方法出现异常
+		最终通知：在后置通知之后执行
+		环绕通知：在方法之前和之后执行
+	Aspect(切面)：把增强应用到具体的方法上，过程称为切面
+	
+在spring里面实现aop操作，使用Aspectj实现
+	（1）aspectj不是spring的一部分，是一个单独的aop框架，但和spring一起使用进行aop操作
+	（2）spring2.0以后增强了对aspectj的支持
+使用aspectj实现aop有两种方式
+	（1）基于aspectj的xml配置
+	（2）基于aspectj的注解方式
+	AOP操作准备
+		1、导入相关jar包（4个）
+			aopalliance-1.0.jar
+			aspectjweaver-1.8.7.jar
+			spring-aop-4.1.6.RELEASE.jar
+			spring-aspects-4.1.6.RELEASE.jar
+		2、创建spring核心配置文件
+			导入aop的约束
+		3、创建增强与被增强对象
+
+	基于aspectj的xml配置
+		使用表达式配置切入点（常用表达式）
+		execution(<访问修饰符>?<返回类型><方法名>(<参数>)<异常>)
+		（1）execution(* com.gong.net.Book.add(..))
+			|-指定路径下指定类的指定方法进行增强
+		（2）execution(* com.gong.net.Book.*(..))
+			|-指定路径下指定类的所有方法进行增强
+		（3）execution(* *.*(..))
+			|-所有路径下所有类的所有方法进行增强
+		（4）executong(* save*(..))
+			|-指定所有save开头的方法进行增强
+	
+	基于aspectj的注解配置
+		@Before 前置通知，相当于BeforeAdvice
+		@AfterReturning 后置通知，相当于AfterReturningAdivce
+		@Around 环绕通知，相当于MethodInterceptor
+		@AfterThrowing 抛出异常通知，相当于ThrowAdivce
+		@After 最终final通知，不管是否异常，该通知都会执行
+	
+		

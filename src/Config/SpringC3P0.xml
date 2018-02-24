@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context" xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:task="http://www.springframework.org/schema/task" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd" default-lazy-init="true">
+    
+    <!-- 配置事务管理器 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    	<!-- 注入dataSource,也就是下面配置的连接池 -->
+    	<property name="dataSource" ref="dataSource"></property>
+    </bean>
+    <!-- 配置事务增强 -->
+    <tx:advice id="txadvice" transaction-manager="transactionManager">
+    	<!-- 做事务操作 -->
+    	<tx:attributes>
+    		<!-- 设置进行事务操作的方法匹配规则 -->
+    		<!-- 可对要进行事务管理的方法名进行模糊匹配，propagation为事务隔离级别 -->
+    		<tx:method name="add*" propagation="REQUIRED"/>
+    	</tx:attributes>
+    </tx:advice>
+    <!-- 配置切面 -->
+    <aop:config>
+    	<!-- 配置切入点 -->
+    	<aop:pointcut expression="execution(* com.net.gong.aop.Book.book(..))" id="pointcut1"/>
+    	<!-- 配置切面 -->
+    	<!-- 
+    	advice-ref:上面配置的事务增强的id
+    	pointcut-ref:配置的切入点的id
+    	 -->
+    	<aop:advisor advice-ref="txadvice" pointcut-ref="pointcut1"/>
+    </aop:config>
+    
+    
+    <!-- 配置c3p0连接池 -->
+    
+    <!-- 手写参数配置 -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+    	<!-- 默认配置，如果没有指定则使用这个配置 -->
+        <property name="driverClass" value="com.mysql.jdbc.Driver"></property>
+        <property name="jdbcUrl" value="jdbc:sqlserver://db.rnd.cas-pe.com:1433;databaseName=CAS_PRD_PAS_DATA_SC"></property>
+        <property name="user" value="root"></property>
+        <property name="password" value="1234"></property>
+        <!-- 初始化池大小 -->
+        <property name="initialPoolSize" value="2"></property>
+        <!-- 最大空闲时间 -->
+        <property name="maxIdleTime" value="30"></property>
+        <!-- 最多有多少个连接 -->
+        <property name="maxPoolSize" value="10"></property>
+        <!-- 最少几个连接 -->
+        <property name="minPoolSize" value="2"></property>
+        <!-- 每次最多可以执行多少个批处理语句 -->
+        <property name="maxStatements" value="50"></property>
+    </bean>
+    
+    <!-- properties文件配置 -->
+    
+    <!-- 属性文件配置 -->
+    <!-- value可以多配置几个properties文件 -->  
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:jdbc.properties</value>
+			</list>
+		</property>
+	</bean>
+    
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<!-- 连接数据库的驱动 -->
+		<property name="driverClass" value="${driverClass}" />
+		<!-- 连接数据库的URL -->
+		<property name="jdbcUrl" value="${jdbcUrl}" />
+		<!-- 用户名 -->
+		<property name="user" value="${user}" />
+		<!-- 密码 -->
+		<property name="password" value="password" />
+	
+		<!-- 连接池中保留的最小连接数，默认为：3 -->
+		<property name="minPoolSize" value="3" />
+		<!-- 连接池中保留的最大连接数。默认值: 15 -->
+		<property name="maxPoolSize" value="15" />
+		<!-- 初始化连接池中的连接数，取值应在minPoolSize与maxPoolSize之间，默认为3 -->
+		<property name="initialPoolSize" value="3" /> 
+    </bean>
+</beans>

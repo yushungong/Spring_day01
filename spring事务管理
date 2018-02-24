@@ -1,0 +1,25 @@
+spring事务管理两种方式
+（1）编程式事务管理（不用）
+（2）声明式事务管理
+	1、基于xml配置文件
+	2、基于注解实现
+
+spring事务管理的api
+	接口：PlatformTransactionManager事务管理器
+	
+（1）spring针对不同的dao层框架，提供不同的接口实现类
+	使用spring JDBC或iBatis进行持久化数据时：org.springframework.jdbc.datasource.DataSourceTransactionManager
+	
+	(1)基于xml配置事务
+		1、首先配置事务管理器
+		2、配置事务增强 
+		3、配置切面
+		（详情见《SpringC3P0.xml》文件）
+		
+	（2）基于注解配置事务
+		1、配置事务管理器
+		（详情见《Spring_TX_Annotation.xml》文件）
+		2、配置事务注解
+		3、在要使用事务的方法所在类上添加注解：@Transactional
+			加上此注解的类所有方法都会开启事务
+		

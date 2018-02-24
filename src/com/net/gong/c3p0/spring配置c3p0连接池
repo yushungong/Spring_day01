@@ -1,0 +1,5 @@
+1、导入jar包
+	c3p0-0.9.1.2.jar
+	mchange-commons-java-0.2.9.jar
+2、创建spring配置文件，配置连接池
+	引入约束
